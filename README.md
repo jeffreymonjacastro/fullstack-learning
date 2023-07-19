@@ -5,6 +5,7 @@
 + HTML
 + CSS
 + JavaScript
++ TypeScript
 + Python
 
 ## Frameworks:

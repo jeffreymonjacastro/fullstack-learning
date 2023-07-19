@@ -1,0 +1,44 @@
+.home {
+  &-main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-container {
+    width: 90vw;
+    height: 90vh;
+    background-color: var(--bgcolor-3);
+    text-align: center;
+    padding: 10px;
+    border-radius: 20px;
+
+    h2 {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+  }
+
+  &-section {
+    background-color: var(--bgcolor-2);
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 20px 30px;
+    display: flex;
+    border-radius: 15px;
+    color: var(--textcolor);
+
+    svg {
+      width: 20%;
+      font-size: 1.5em;
+    }
+
+    h3 {
+      font-size: 1.2em;
+      margin-left: 20px;
+    }
+  }
+}
