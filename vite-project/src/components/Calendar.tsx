@@ -41,6 +41,8 @@ export const Calendar = () => {
   const [date, setDate] = useState(new Date())
   const [days, setDays] = useState([] as JSX.Element[])
   const [selectDate, setSelectDate] = useState(new Date())
+  const [showMonthSelector, setShowMonthSelector] = useState(false)
+  const [showYearSelector, setShowYearSelector] = useState(false)
 
 
   let day = date.getDate()
@@ -77,24 +79,24 @@ export const Calendar = () => {
           />
         );
       else
-      daysArray.push(
-        <Day 
-          id={i} 
-          key={i} 
-          num={i} 
-          clase=""
-          month={month}
-          year={year}
-          function={setSelectDate}
-        />
-      );
+        daysArray.push(
+          <Day 
+            id={i} 
+            key={i} 
+            num={i} 
+            clase=""
+            month={month}
+            year={year}
+            function={setSelectDate}
+          />
+        );
     }
 
     for (let i = 1; i <= (6-endDay()); i++) {
       daysArray.push(
         <OtherDay 
           key={num} 
-          num={getTotalDays(month-1)-(i-1)}
+          num={i}
           clase="calendar__next-days"
         />  
       );
@@ -109,7 +111,7 @@ export const Calendar = () => {
     if (month === -1)
       month = 11
       
-    if (month % 2 === 0)
+    if (month % 2 === 0 || month === 7)
       return 31
     else if (month === 1)
       return isLeap(year) ? 29 : 28
@@ -182,16 +184,78 @@ export const Calendar = () => {
               className="calendar__prev"
               onClick={lastMonth}  
             >&#9664;</div>
+            
+            <div className="calendar__month">
+              <div onClick={() => setShowMonthSelector(!showMonthSelector)}>
+                { monthNames[month] }
+              </div>
 
-            <div 
-              className="calendar__month"
-              onClick={(e) => console.log(e.target)}
-            >{ monthNames[month] }</div>
-
-            <div 
-              className="calendar__year"
-              onClick={(e) => console.log(e.target)}
-            >{ year }</div>
+              { showMonthSelector && 
+                <div className="calendar-selector__month"> 
+                  {monthNames.map((m, index) => {
+                    if (m === monthNames[date.getMonth()])
+                      return (
+                        <div 
+                          key={index} 
+                          className="calendar-this"
+                          onClick={() => {
+                            month = index
+                            setNewDate()
+                            setShowMonthSelector(!showMonthSelector)
+                          }}
+                        >{m}</div>
+                      )
+                    else
+                      return (
+                        <div 
+                          key={index}
+                          onClick={() => {
+                            month = index
+                            setNewDate()
+                            setShowMonthSelector(!showMonthSelector)
+                          }}
+                        >{m}</div>
+                      )
+                  })}
+                </div> }
+            </div>
+            
+            <div className="calendar__year">
+              <div onClick={() => setShowYearSelector(!showYearSelector)}>
+                { year }
+              </div>
+              
+              { showYearSelector && 
+                <div className="calendar-selector__year"> 
+                  { Array.from(Array(100), (e, i) => i + year-99)
+                    .reverse()
+                    .map((y, index) => {
+                      if (y === date.getFullYear())
+                        return (
+                          <div 
+                            key={index} 
+                            className="calendar-this"
+                            onClick={() => {
+                              year = year - index
+                              setNewDate()
+                              setShowYearSelector(!showYearSelector)
+                            }}
+                          >{y}</div>
+                        )
+                      else
+                        return (
+                          <div 
+                            key={index}
+                            onClick={() => {
+                              year = year - index
+                              setNewDate()
+                              setShowYearSelector(!showYearSelector)
+                            }}
+                          >{y}</div>
+                        )
+                  })}
+                </div> }
+            </div>
 
             <div 
               className="calendar__next"
