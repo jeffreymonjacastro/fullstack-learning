@@ -3,8 +3,15 @@
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    h2 {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
   }
 
   &-container {
@@ -14,12 +21,7 @@
     text-align: center;
     padding: 10px;
     border-radius: 20px;
-
-    h2 {
-      font-size: 1.3em;
-      margin-bottom: 20px;
-      margin-top: 10px;
-    }
+    overflow-y: scroll;
   }
 
   &-section {
@@ -30,6 +32,8 @@
     display: flex;
     border-radius: 15px;
     color: var(--textcolor);
+    align-items: center;
+    text-align: left;
 
     svg {
       width: 20%;
@@ -37,6 +41,7 @@
     }
 
     h3 {
+      width: 80%;
       font-size: 1.2em;
       margin-left: 20px;
     }
