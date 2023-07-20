@@ -79,6 +79,8 @@ export const Home = () => {
           <h3>Unicode Search</h3>
         </Link>
 
+        {/* Landing Page  */}
+
       </article>
     </main>
   )

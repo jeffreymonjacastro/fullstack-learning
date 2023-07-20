@@ -9,7 +9,6 @@
 
   &-container {
     width: 90vw;
-
     text-align: center;
 
     h2 {
@@ -62,6 +61,12 @@
   &__item {
     text-align: center;
     line-height: 2;
+
+    &:hover {
+      background-color: var(--bgcolor-2);
+      color: white;
+      border-radius: 10px;
+    }
   }
 
   &__today {
@@ -74,5 +79,16 @@
 
   &__last-days, &__next-days {
     opacity: .3;
+  }
+
+  &-date {
+    margin: 0 auto;
+    margin-top: 20px;
+    background-color: var(--bgcolor-3);
+    width: 70%;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
   }
 }

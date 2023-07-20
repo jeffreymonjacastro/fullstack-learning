@@ -1,19 +1,47 @@
 import { useEffect, useState } from 'react'
 import '../scss/pages/calendar.scss'
 
-const Day = ({ num, clase }: { num: number; clase: string }) => {
+const Day = (
+    { id, num, clase, month, year, function: setSelectDate }: 
+    { 
+      id: number; 
+      num: number; 
+      clase: string, 
+      month: number, 
+      year: number, 
+      function: any 
+    }
+  ) => {
+
   return (
-    <div className={`calendar__item ${clase}`}>{num}</div>
+    <div 
+      id = {id.toString()}
+      className={`calendar__item ${clase}`}
+      onClick = {() => {setSelectDate(new Date(year, month, num))}}>
+      {num}
+    </div>
+    
+  )
+}
+
+const OtherDay = ({num, clase}: {num: number, clase: string}) => {
+  return (
+    <div className={`calendar__item ${clase}`}>
+      {num}
+    </div>
   )
 }
 
 export const Calendar = () => {
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octuber', 'November', 'December']
+  const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
   const currentDate = new Date()
 
   const [date, setDate] = useState(new Date())
   const [days, setDays] = useState([] as JSX.Element[])
+  const [selectDate, setSelectDate] = useState(new Date())
+
 
   let day = date.getDate()
   let month = date.getMonth()
@@ -25,19 +53,51 @@ export const Calendar = () => {
     const daysArray: JSX.Element[] = [];
 
     for (let i = startDay(); i > 0; i--) {
-      daysArray.push(<Day key={num} num={getTotalDays(month-1)-(i-1)} clase="calendar__last-days"/>);
+      daysArray.push(
+        <OtherDay 
+          key={num} 
+          num={getTotalDays(month-1)-(i-1)}
+          clase="calendar__last-days"
+        />
+      );
       num++
     }
     
     for (let i = 1; i <= getTotalDays(month); i++) {
       if (i === day && month === currentDate.getMonth() && year === currentDate.getFullYear())
-        daysArray.push(<Day key={i} num={i} clase="calendar__today" />);
+        daysArray.push(
+          <Day 
+            id={i} 
+            key={i} 
+            num={i} 
+            clase="calendar__today"
+            month={month}
+            year={year}
+            function={setSelectDate}
+          />
+        );
       else
-        daysArray.push(<Day key={i} num={i} clase=""/>);
+      daysArray.push(
+        <Day 
+          id={i} 
+          key={i} 
+          num={i} 
+          clase=""
+          month={month}
+          year={year}
+          function={setSelectDate}
+        />
+      );
     }
 
     for (let i = 1; i <= (6-endDay()); i++) {
-      daysArray.push(<Day key={num} num={i} clase="calendar__next-days"/>);
+      daysArray.push(
+        <OtherDay 
+          key={num} 
+          num={getTotalDays(month-1)-(i-1)}
+          clase="calendar__next-days"
+        />  
+      );
       num++
     }
 
@@ -122,8 +182,17 @@ export const Calendar = () => {
               className="calendar__prev"
               onClick={lastMonth}  
             >&#9664;</div>
-            <div className="calendar__month">{ monthNames[month] }</div>
-            <div className="calendar__year">{ year }</div>
+
+            <div 
+              className="calendar__month"
+              onClick={(e) => console.log(e.target)}
+            >{ monthNames[month] }</div>
+
+            <div 
+              className="calendar__year"
+              onClick={(e) => console.log(e.target)}
+            >{ year }</div>
+
             <div 
               className="calendar__next"
               onClick={nextMonth}
@@ -141,6 +210,17 @@ export const Calendar = () => {
           </div>
 
           <div className="calendar__dates"> { days } </div>
+        </section>
+
+        <section className='calendar-date'>
+          <div>
+            {weekDays[selectDate.getDay()-1 !== -1 ? selectDate.getDay()-1 : 6]} 
+          </div>
+          <div>
+            {selectDate.getDate()} / 
+            {monthNames[selectDate.getMonth()]} / 
+            {selectDate.getFullYear()}
+          </div>
         </section>
       </article>
     </main>
