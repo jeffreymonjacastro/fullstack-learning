@@ -2,7 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faCalendar, 
   faCalculator, 
-  faLink } from '@fortawesome/free-solid-svg-icons';
+  faLink,
+  faClock } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import '../scss/pages/home.scss'
 
@@ -28,6 +29,11 @@ export const Home = () => {
         <Link to={'/url-shortener'} className='home-section'>
           <FontAwesomeIcon icon={faLink} bounce />
           <h3>URL shortener</h3>
+        </Link>
+
+        <Link to={'/clock'} className='home-section'>
+          <FontAwesomeIcon icon={faClock} bounce />
+          <h3>Clock</h3>
         </Link>
       </article>
     </main>

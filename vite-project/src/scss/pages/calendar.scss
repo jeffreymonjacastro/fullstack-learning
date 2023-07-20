@@ -1,0 +1,78 @@
+.calendar {
+  &-main {
+    width: 100vw;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-container {
+    width: 90vw;
+
+    text-align: center;
+
+    h2 {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+  }
+
+  &-calendario {
+    background-color: var(--bgcolor-3);
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    padding: 10px;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    padding: 0 1em;
+    font-size: 1.2em;
+    text-transform: uppercase;
+  }
+
+  &__prev, &__next {
+    color: var(--bgcolor-5);
+    cursor: pointer;
+    font-size: 1.3em;
+  }
+
+  &__prev {
+    margin-right: auto;
+  }
+
+  &__next {
+    margin-left: auto;
+  }
+
+  &__month, &__year {
+    padding: .5em .3em;
+  }
+
+  &__week, &__dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 10px;
+  }
+
+  &__item {
+    text-align: center;
+    line-height: 2;
+  }
+
+  &__today {
+    background-color: var(--bgcolor-5);
+    color: white;
+    width: 90%;
+    border-radius: 50%;
+    margin: auto;
+  }
+
+  &__last-days, &__next-days {
+    opacity: .3;
+  }
+}
