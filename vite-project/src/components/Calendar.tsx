@@ -125,14 +125,14 @@ export const Calendar = () => {
   }  
 
   // Returns where the week start
-  const startDay = () => {
+  const startDay = (): number => {
     let start = new Date(year, month, 1)
 
     return ((start.getDay()-1 === -1) ? 6 : start.getDay() -1 )
   }
 
   // Returns where the week ends
-  const endDay = () => {
+  const endDay = (): number => {
     let end = new Date(year, month, getTotalDays(month))   
 
     return ((end.getDay()-1 === -1) ? 6 : end.getDay() -1 )
@@ -224,7 +224,7 @@ export const Calendar = () => {
               <div onClick={() => setShowYearSelector(!showYearSelector)}>
                 { year }
               </div>
-              
+
               { showYearSelector && 
                 <div className="calendar-selector__year"> 
                   { Array.from(Array(100), (e, i) => i + year-99)
