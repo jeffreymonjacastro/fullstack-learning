@@ -80,6 +80,7 @@ export const Home = () => {
         </Link>
 
         {/* Landing Page  */}
+        {/* CSS logo designs */}
 
       </article>
     </main>

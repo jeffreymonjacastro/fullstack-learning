@@ -7,6 +7,37 @@
   color: #ccc;
 }
 
+@mixin button_3d(
+    $pad1: 5px, 
+    $pad2: 5px,
+    $bg: var(--bgcolor-3)
+  ){
+  background-color: $bg;
+  cursor: pointer;
+  padding: $pad1 $pad2;
+  margin: 10px;
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 
+              0 4px 8px rgba(0, 0, 0, 0.2), 
+              0 8px 16px rgba(0, 0, 0, 0.1);
+
+  transition: transform 0.1s, box-shadow 0.2s; 
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 
+                0 2px 4px rgba(0, 0, 0, 0.1), 
+                0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), 
+                0 4px 8px rgba(0, 0, 0, 0.4), 
+                0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+}
+
 // div {
 //   @include caja_personalizada();
 // }

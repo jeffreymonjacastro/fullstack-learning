@@ -1,3 +1,5 @@
+@use '../abstracts/mixins' as mixins;
+
 html, body {
   font-family: var(--font-poppins);
   background-color: var(--bgcolor-1);
@@ -6,32 +8,11 @@ html, body {
 }
 
 .back {
-  background-color: var(--bgcolor-2);
+  @include mixins.button_3d(10px, 10px, var(--bgcolor-2));
+
   color: var(--textcolor);
   font-size: .8em;
   position: absolute;
   top: 0;
   left: 0;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 
-              0 4px 8px rgba(0, 0, 0, 0.2), 
-              0 8px 16px rgba(0, 0, 0, 0.1);
-
-  transition: transform 0.1s, box-shadow 0.2s;
-
-  &:active {
-    transform: scale(0.95);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 
-                0 2px 4px rgba(0, 0, 0, 0.1), 
-                0 4px 8px rgba(0, 0, 0, 0.05);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), 
-                0 4px 8px rgba(0, 0, 0, 0.4), 
-                0 8px 16px rgba(0, 0, 0, 0.3);
-  }
 }
