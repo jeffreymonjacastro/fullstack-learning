@@ -175,6 +175,10 @@ export const Calendar = () => {
 
   return (
     <main className="calendar-main">
+      <a className="back" href="/">
+        &#x2190; Back
+      </a>
+
       <article className="calendar-container">
         <h2> Calendario Interactivo </h2>
 
