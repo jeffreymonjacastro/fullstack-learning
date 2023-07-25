@@ -11,6 +11,18 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 def allowed_file(filename):
   return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+def convertToBinary(filename):
+  with open(filename, 'rb') as file:
+    binaryData = file.read()
+  return binaryData
+
+
+def convertToImage(binaryData, filename):
+  with open(filename, 'wb') as file:
+    file.write(binaryData)
+
+
 # Flask app creation
 app = Flask(__name__)
 
@@ -65,8 +77,6 @@ class ImageUpload(db.Model):
     )
 
 
-
-
 with app.app_context():
   db.create_all()
 
@@ -89,7 +99,7 @@ def person():
 
 
 @app.route('/image/upload', methods=['POST'])
-def upload_image():
+def uploadImage():
   if 'file' not in request.files:
     return jsonify({'error': 'image not provided'}), 400
 
@@ -101,6 +111,11 @@ def upload_image():
   if file and allowed_file(file.filename):
     filename = file.filename
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    convertPic = convertToBinary(f'./static/{filename}')
+    new_image = ImageUpload( blob_image = convertPic )
+    db.session.add(new_image)
+    db.session.commit()
   
   return jsonify({'message': 'image uploaded successfully'}), 200
 
