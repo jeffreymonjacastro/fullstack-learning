@@ -1,28 +1,17 @@
 import '../scss/pages/imageup.scss'
+import { uploadImage } from '../services/api'
 
 export const ImageUpload = () => {
 
-  const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dwzjh0asp/image/upload'
-  const CLOUDINARY_UPLOAD_PRESET = 'llekbdwp'
-
-
   const imgUploader = async (e: any) => {
-    const file = e.target.files[0].name
+    const file = e.target.files[0]
 
-    // This formData will be sent to the server
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-
-    // Send the formData to the server
-    const res = await fetch(CLOUDINARY_URL, {
-      method: 'POST',
-      body: formData,
-      headers: { 'content-type': 'multipart/form-data' }
-    })
-    
-    console.log(res);
-    
+    try {
+      const response = await uploadImage(file)
+      console.log(response)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
