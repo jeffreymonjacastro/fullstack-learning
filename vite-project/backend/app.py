@@ -108,16 +108,18 @@ def uploadImage():
   if file.filename == '':
     return jsonify({'error': 'no image selected'}), 400
 
-  if file and allowed_file(file.filename):
-    filename = file.filename
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+  if not allowed_file(file.filename):
+    return jsonify({'error': 'invalid image format'}), 400
 
-    convertPic = convertToBinary(f'./static/{filename}')
-    new_image = ImageUpload( blob_image = convertPic )
-    db.session.add(new_image)
-    db.session.commit()
+  file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+  convertPic = convertToBinary(f'./static/{file.filename}')
+  binary_image = ImageUpload( blob_image = convertPic )
+  db.session.add(binary_image)
+  db.session.commit()
   
-  return jsonify({'message': 'image uploaded successfully'}), 200
+  return binary_image.blob_image
+  # return jsonify({'message': 'image uploaded successfully'}), 200
 
 
 if __name__ == '__main__':

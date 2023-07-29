@@ -7,10 +7,11 @@ export const uploadImage = async (file: File) => {
   
   const res = await fetch(`${BACKEND_URL}/image/upload`, {
     method: 'POST',
-    body: formData,
-    headers: { 'Content-Type': 'multipart/form-data' }
+    body: formData
   })
   
-  const data = await res.json()
+  const data = await res.blob()
   return data
+  
+  
 }
