@@ -25,17 +25,6 @@ export const ImageUpload = () => {
   const [imageName, setImageName] = useState('')
   const [images, setImages] = useState([])
 
-  useEffect(() => {
-    const callgetImages = async () => {
-      const response = await getImages()
-      setImages(response || [])
-    }
-
-    callgetImages()
-
-    return () => {}
-  }, [url_img])
-
   const imgUploader = async (e: any) => {
     const file = e.target.files[0]
 
@@ -46,13 +35,27 @@ export const ImageUpload = () => {
     setUrl_img(URL.createObjectURL(response))
   }
 
+  const callgetImages = async () => {
+    const response = await getImages()
+    setImages(response || [])
+  }
+
+  useEffect(() => {
+    callgetImages()
+
+    return () => {}
+  }, [url_img])
+
   return (
     <main className="imageup-main">
-      <h2>Image Upload</h2>
-
+      <a className="back" href="/">
+        &#x2190; Back
+      </a>
+      
       <aside className="imageup-container">
+      <h2>Image Upload</h2>
         <section className='imageup-upload'>
-          <img src={url_img} alt="holi" id="img-preview" />
+          {url_img && <img src={url_img} alt="holi" id="img-preview" />}
           <p>{imageName}</p>
 
           <div className="imageup-footer">
