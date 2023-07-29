@@ -12,6 +12,11 @@ export const uploadImage = async (file: File) => {
   
   const data = await res.blob()
   return data
-  
-  
+}
+
+// Get Images
+export const getImages = async () => {
+  const res = await fetch(`${BACKEND_URL}/image/upload`)
+  const data = await res.json()
+  return data
 }

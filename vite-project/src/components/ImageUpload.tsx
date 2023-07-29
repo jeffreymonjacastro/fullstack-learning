@@ -1,18 +1,49 @@
-import { useState } from 'react'
-import { uploadImage } from '../services/api'
+import { useEffect, useState } from 'react'
+import { uploadImage, getImages } from '../services/api'
 import '../scss/pages/imageup.scss'
+
+const Image = (
+  {id, name, url}: 
+  { id: number, 
+    name: string, 
+    url: string}) => {
+
+  return (
+    <div className="imageup-historial__item">
+      <img 
+        id={id.toString()} 
+        src={`data:image/png;base64,${url}`} 
+        alt={name} />
+      <p>{name}</p>
+    </div>
+  )
+}
+
 
 export const ImageUpload = () => {
   const [url_img, setUrl_img] = useState('')
+  const [imageName, setImageName] = useState('')
+  const [images, setImages] = useState([])
+
+  useEffect(() => {
+    const callgetImages = async () => {
+      const response = await getImages()
+      setImages(response || [])
+    }
+
+    callgetImages()
+
+    return () => {}
+  }, [url_img])
 
   const imgUploader = async (e: any) => {
     const file = e.target.files[0]
 
+    setImageName(file.name)
+
     const response = await uploadImage(file)
     
-    console.log(response)
-    
-    // setUrl_img(URL.createObjectURL(response))
+    setUrl_img(URL.createObjectURL(response))
   }
 
   return (
@@ -22,6 +53,7 @@ export const ImageUpload = () => {
       <aside className="imageup-container">
         <section className='imageup-upload'>
           <img src={url_img} alt="holi" id="img-preview" />
+          <p>{imageName}</p>
 
           <div className="imageup-footer">
             <label 
@@ -39,7 +71,14 @@ export const ImageUpload = () => {
         <section className='imageup-historial'>
           <h3>Image Preview</h3>
 
-
+          { images?.map((image: any) => (
+            <Image 
+              key={image.id} 
+              id={image.id}
+              name={image.name}
+              url={image.base64_image}
+            />
+          ))}
         </section>
       </aside>
     </main>

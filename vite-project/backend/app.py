@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from dataclasses import dataclass
 import os
+import base64
 
 # Global variables
 UPLOAD_FOLDER = './static'
@@ -63,12 +64,18 @@ class ImageUpload(db.Model):
   __table_args__ = {'schema': 'mini_projects'}
 
   id: int
+  name: str
   blob_image: bytes
 
   id = db.Column(
     db.Integer,
     primary_key=True,
     autoincrement=True
+    )
+
+  name = db.Column(
+    db.String(100),
+    nullable=False
     )
 
   blob_image = db.Column(
@@ -98,27 +105,40 @@ def person():
     return jsonify({'message': 'New person created'})
 
 
-@app.route('/image/upload', methods=['POST'])
+@app.route('/image/upload', methods=['GET', 'POST'])
 def uploadImage():
-  if 'file' not in request.files:
-    return jsonify({'error': 'image not provided'}), 400
+  if request.method == 'GET':
+    images = ImageUpload.query.all()
+    serialized_images = [{
+      'id': image.id,
+      'name': image.name, 
+      'base64_image': base64.b64encode(image.blob_image).decode('utf-8')
+      } for image in images]
+    return jsonify(serialized_images)
 
-  file = request.files['file']
+  elif request.method == 'POST':
+    if 'file' not in request.files:
+      return jsonify({'error': 'image not provided'}), 400
 
-  if file.filename == '':
-    return jsonify({'error': 'no image selected'}), 400
+    file = request.files['file']
 
-  if not allowed_file(file.filename):
-    return jsonify({'error': 'invalid image format'}), 400
+    if file.filename == '':
+      return jsonify({'error': 'no image selected'}), 400
 
-  file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+    if not allowed_file(file.filename):
+      return jsonify({'error': 'invalid image format'}), 400
 
-  convertPic = convertToBinary(f'./static/{file.filename}')
-  binary_image = ImageUpload( blob_image = convertPic )
-  db.session.add(binary_image)
-  db.session.commit()
-  
-  return binary_image.blob_image
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+    convertPic = convertToBinary(f'./static/{file.filename}')
+    binary_image = ImageUpload( 
+      name = file.filename, 
+      blob_image = convertPic 
+    )
+    db.session.add(binary_image)
+    db.session.commit()
+    
+    return binary_image.blob_image
   # return jsonify({'message': 'image uploaded successfully'}), 200
 
 
