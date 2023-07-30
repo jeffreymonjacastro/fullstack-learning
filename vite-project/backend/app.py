@@ -19,9 +19,9 @@ def convertToBinary(filename):
   return binaryData
 
 
-def convertToImage(binaryData, filename):
-  with open(filename, 'wb') as file:
-    file.write(binaryData)
+# def convertToImage(binaryData, filename):
+#   with open(filename, 'wb') as file:
+#     file.write(binaryData)
 
 
 # Flask app creation
@@ -60,6 +60,10 @@ class Person(db.Model):
 
 @dataclass
 class ImageUpload(db.Model):
+  """
+  Class ImageUpload to store the images in the database
+  """
+
   __tablename__ = 'image_upload'
   __table_args__ = {'schema': 'mini_projects'}
 
@@ -91,6 +95,9 @@ with app.app_context():
 # Routes
 @app.route('/person', methods=['GET', 'POST'])
 def person():
+  """
+  Test function to check if the server is running
+  """
   if request.method == 'GET':
     persons = Person.query.all()
     return jsonify(persons)
@@ -107,6 +114,10 @@ def person():
 
 @app.route('/image/upload', methods=['GET', 'POST'])
 def uploadImage():
+  """
+  Function to upload an image to the server and get the images from the server
+  """
+
   if request.method == 'GET':
     images = ImageUpload.query.all()
     serialized_images = [{

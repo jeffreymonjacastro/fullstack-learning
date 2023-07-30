@@ -1,0 +1,33 @@
+@use '../abstracts/mixins' as mixins;
+
+.apis {
+  &-main {
+    width: 100vw;
+    display: flex;
+    place-content: center;
+    text-align: center;
+  }
+
+  &-container {
+    width: 90vw;
+
+    h2 {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+  }
+
+  &-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    &__item {
+      @include mixins.button_3d(10px, 10px);
+
+      display: flex;
+      place-content: center;
+      flex-direction: column;
+    }
+  }
+}
