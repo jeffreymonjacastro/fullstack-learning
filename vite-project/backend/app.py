@@ -106,6 +106,7 @@ class User(db.Model):
   birthdate: datetime
   country: str
   city: str
+  image_name: str
   image: bytes
 
   id = db.Column(
@@ -141,6 +142,11 @@ class User(db.Model):
 
   city = db.Column(
     db.String(20),
+  )
+
+  image_name = db.Column(
+    db.String(100),
+    nullable=False
   )
 
   image = db.Column(
@@ -254,6 +260,7 @@ def loginRegister():
       birthdate = request.form['birthdate']
       country = request.form['country']
       city = request.form['city']
+      city = request.form['city'] if city != 'undefined' else ''
       image = request.files['image']
 
       image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
@@ -267,6 +274,7 @@ def loginRegister():
         birthdate = birthdate,
         country = country,
         city = city,
+        image_name = image.filename,
         image = binary_image
       )
 

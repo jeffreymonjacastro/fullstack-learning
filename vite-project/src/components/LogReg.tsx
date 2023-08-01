@@ -1,18 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { registerUser, getUsers } from '../services/api'
 import '../scss/pages/logreg.scss'
 
-const User = () => {
+const User = (
+  {id, name, email, password, birthdate, country, city, image_name, image}: 
+  {
+    id: number, 
+    name: string, 
+    email: string,
+    password: string,
+    birthdate: string,
+    country: string,
+    city: string,
+    image_name: string,
+    image: string
+  }) => {
+
+  const date = new Date(birthdate)
+
   return (
     <section className="logreg-card">
-      <img src="https://images.unsplash.com/photo-1567270671170-fdc10a5bf831?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="gatito" />
+      <img 
+        id = {id.toString()}
+        src = {`data:image/png;base64,${image}`}
+        alt = { image_name } />
       <div className="logreg-card__info">
-        <p><b>Nombre:</b> aaaaaaaaaaaaaaaaaaaa</p>
-        <p><b>Correo:</b> aaaaaaaaaaaaaaaaaaaaaa</p>
-        <p><b>Contraseña:</b> aaaaaaaaaaaaaaaaaaaa</p>
-        <p><b>Fecha de Nacimiento:</b> 07/01/2023</p>
-        <p><b>País:</b> aaaaaaaaaaaaaaaaaaaa</p>
+        <p><b>Nombre:</b> { name }</p>
+        <p><b>Correo:</b> { email }</p>
+        <p><b>Contraseña:</b> { password }</p>
+        <p><b>Fecha de Nacimiento:</b> { `${date.getDate()+1}/${date.getMonth()+1}/${date.getFullYear()}` }</p>
+        <p><b>País:</b> { country }</p>
+        { city && <p><b>Departamento:</b> { city }</p> }
       </div>
 
     </section>
@@ -21,13 +40,13 @@ const User = () => {
 
 
 export const LogReg = () => {
+  const [users, setUsers] = useState([])
   
   const {
     register, 
     handleSubmit,
     formState: { errors },
     watch,
-    setValue,
     reset,
   } = useForm()
 
@@ -44,9 +63,11 @@ export const LogReg = () => {
       data.image[0]  
     )
 
-    console.log(response);
+    alert(response)
+
+    callgetUsers()
     
-    // reset()
+    reset()
   })
 
   const ALLOWED_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'gif']);
@@ -59,6 +80,18 @@ export const LogReg = () => {
 
     return fileExtension !== undefined && ALLOWED_EXTENSIONS.has(fileExtension);
   };
+
+  const callgetUsers = async () => {
+    const response = await getUsers()
+    setUsers(response || [])
+  }
+
+  useEffect(() => {
+
+    callgetUsers()
+
+    return () => {}
+  }, [])
 
   return (
     <main className='logreg-main'>
@@ -277,9 +310,22 @@ export const LogReg = () => {
       </aside>
       <article className="logreg-users">
         <h2>Usuarios</h2>
-
-        <User />
-        <User />
+        {
+          users?.map((user: any) => (
+            <User
+              key={user.id}
+              id={user.id}
+              name={user.name}
+              email={user.email}
+              password={user.password}
+              birthdate={user.birthdate}
+              country={user.country}
+              city={user.city}
+              image_name={user.image_name}
+              image={user.image}
+            />
+          ))
+        }
       </article>
     </main>
   )

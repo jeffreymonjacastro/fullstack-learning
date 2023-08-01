@@ -48,7 +48,7 @@
       font-size: var(--font-size);
       border-radius: 1em;
       color: inherit;
-      padding: 0 10px;
+      padding: 5px 10px;
     }
 
     & input[type='file'] {
@@ -129,15 +129,6 @@
   }
 }
 
-// 412px vertical
-@media screen and (max-width: 450px) {
-  .logreg {
-    &-json {
-      font-size: 12px;
-    }
-  }
-}
-
 // 891px horizontal
 @media screen and (max-width: 900px) {
   .logreg {
@@ -146,3 +137,17 @@
     }
   }
 }
+
+// 412px vertical
+@media screen and (max-width: 450px) {
+  body {
+    font-size: 15px !important;
+  }
+
+  .logreg {
+    &-json {
+      font-size: 12px;
+    }
+  }
+}
+
