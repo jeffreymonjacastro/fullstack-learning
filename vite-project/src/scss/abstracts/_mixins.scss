@@ -10,11 +10,15 @@
 @mixin button_3d(
     $pad1: 5px, 
     $pad2: 5px,
-    $bg: var(--bgcolor-3)
+    $bg: var(--bgcolor-3),
+    $fz: var(--font-size),
+    $w: auto
   ){
   background-color: $bg;
-  cursor: pointer;
   padding: $pad1 $pad2;
+  font-size: $fz;
+  width: $w;
+  cursor: pointer;
   margin: 10px;
   border-radius: 25px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 
@@ -38,6 +42,3 @@
   }
 }
 
-// div {
-//   @include caja_personalizada();
-// }

@@ -50,3 +50,38 @@ export const getRickAndMortyCharacter = async (id: number) => {
 
 
 // https://dog.ceo/api/breeds/image/random Fetch!
+
+
+// Login-Register (POST)
+export const registerUser = async (
+  name: string,
+  email: string,
+  password: string,
+  birthdate: string,
+  counrty: string,
+  city: string,
+  image: File
+) => {
+  const formData = new FormData()
+  formData.append('name', name)
+  formData.append('email', email)
+  formData.append('password', password)
+  formData.append('birthdate', birthdate)
+  formData.append('country', counrty)
+  formData.append('city', city)
+  formData.append('image', image)
+  
+  const res = await fetch(`${BACKEND_URL}/login-register`, {
+    method: 'POST',
+    body: formData
+  })
+  
+  return 'User registered successfully'
+}
+
+// Login-Register (GET)
+export const getUsers = async () => {
+  const res = await fetch(`${BACKEND_URL}/login-register`)
+  const data = await res.json()
+  return data
+}
