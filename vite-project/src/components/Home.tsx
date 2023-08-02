@@ -81,6 +81,7 @@ export const Home = () => {
 
         {/* Landing Page  */}
         {/* CSS logo designs */}
+        {/* React PDF */}
 
       </article>
     </main>

@@ -249,6 +249,7 @@ def loginRegister():
         'birthdate': user.birthdate,
         'country': user.country,
         'city': user.city, 
+        'image_name': user.image_name,
         'image': base64.b64encode(user.image).decode('utf-8')
         } for user in users]
       return jsonify(serialized_users)

@@ -1,37 +1,70 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { registerUser, getUsers } from '../services/api'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { 
+  faPenToSquare, 
+  faTrash } from '@fortawesome/free-solid-svg-icons'
 import '../scss/pages/logreg.scss'
 
-const User = (
-  {id, name, email, password, birthdate, country, city, image_name, image}: 
-  {
-    id: number, 
-    name: string, 
-    email: string,
-    password: string,
-    birthdate: string,
-    country: string,
-    city: string,
-    image_name: string,
-    image: string
-  }) => {
+interface DataObject {
+  id: number, 
+  name: string, 
+  email: string,
+  password: string,
+  birthdate: Date,
+  country: string,
+  city: string,
+  image_name: string,
+  image: string
+  setEdit: any
+}
 
-  const date = new Date(birthdate)
+interface Props {
+  data: DataObject;
+}
+
+// El FC es un componente funcional con un tipo específico de props
+const User: React.FC<Props> = ({data}) => {
+
+  const date = new Date(data.birthdate)
+  
+
+  const deleteUser = async (id: number) => {
+    const response = ''
+  }
 
   return (
     <section className="logreg-card">
+      <div
+        id = {data.id.toString()} 
+        className="logreg-editbtn"
+        onClick={() => data.setEdit(data)}
+      >
+        <FontAwesomeIcon icon = {faPenToSquare} />
+      </div>
+      <div
+        id = {data.id.toString()} 
+        className="logreg-deletebtn"
+        onClick={() => deleteUser(data.id)}
+      >
+        <FontAwesomeIcon icon = {faTrash} />
+      </div>
+
       <img 
-        id = {id.toString()}
-        src = {`data:image/png;base64,${image}`}
-        alt = { image_name } />
+        id = {data.id.toString()}
+        alt = { data.image_name }
+        src = {`data:image/png;base64,${data.image}`}
+      />
       <div className="logreg-card__info">
-        <p><b>Nombre:</b> { name }</p>
-        <p><b>Correo:</b> { email }</p>
-        <p><b>Contraseña:</b> { password }</p>
-        <p><b>Fecha de Nacimiento:</b> { `${date.getDate()+1}/${date.getMonth()+1}/${date.getFullYear()}` }</p>
-        <p><b>País:</b> { country }</p>
-        { city && <p><b>Departamento:</b> { city }</p> }
+        <p><b>Nombre:</b> { data.name }</p>
+        <p><b>Correo:</b> { data.email }</p>
+        <p><b>Contraseña:</b> { data.password }</p>
+        <p><b>Fecha de Nacimiento:</b> { 
+          `${date.getDate()+1}/${date.getMonth()+1}/${date.getFullYear()}` 
+        }</p>
+        <p><b>País:</b> { data.country }</p>
+        { data.city && <p><b>Departamento:</b> { data.city }</p> }
       </div>
 
     </section>
@@ -41,7 +74,20 @@ const User = (
 
 export const LogReg = () => {
   const [users, setUsers] = useState([])
+  const [edit, setEdit] = useState({
+    name: '',
+    email: '',
+    password: '',
+    birthdate: '',
+    country: '',
+    city: '',
+    image_name: '',
+    image: ''
+  }) 
+
+  console.log(edit);
   
+
   const {
     register, 
     handleSubmit,
@@ -82,7 +128,7 @@ export const LogReg = () => {
   };
 
   const callgetUsers = async () => {
-    const response = await getUsers()
+    const response = await getUsers()    
     setUsers(response || [])
   }
 
@@ -107,7 +153,8 @@ export const LogReg = () => {
           >
             <label htmlFor="name">Nombre</label>
             <input 
-              type="text" 
+              type="text"
+              defaultValue= { edit?.name }
               id='name'
               placeholder='Nombre completo'
               {...register('name', {
@@ -133,6 +180,7 @@ export const LogReg = () => {
             <label htmlFor="email">Correo</label>
             <input
               type="email"
+              defaultValue= { edit?.email }
               id='email'
               placeholder='Correo electrónico'
               {...register('email', {
@@ -154,6 +202,7 @@ export const LogReg = () => {
             <label htmlFor="password">Contraseña</label>
             <input
               type="password"
+              defaultValue= { edit?.password }
               id='password'
               placeholder='Contraseña'
               {...register('password', {
@@ -199,6 +248,7 @@ export const LogReg = () => {
             <label htmlFor="birthdate">Fecha de Nacimiento</label>
             <input
               type="date"
+              defaultValue= { edit?.birthdate }
               id='birthdate'
               {...register('birthdate', {
                 required: {
@@ -226,6 +276,7 @@ export const LogReg = () => {
             <label htmlFor="country">País</label>
             <select 
               id="country"
+              defaultValue= { edit?.country }
               {...register('country')}
             >
               <option value="mx">México</option>
@@ -238,7 +289,8 @@ export const LogReg = () => {
                 <>
                   <label htmlFor="city">Departamento</label>
                   <input 
-                    type="text" 
+                    type="text"
+                    defaultValue= { edit?.city }
                     id='city'
                     placeholder='Departamento'
                     {...register('city', {
@@ -259,7 +311,7 @@ export const LogReg = () => {
             <label htmlFor='image'>Foto de perfil</label>
             <div className="logreg-form__image">
               <label htmlFor="image">Subir foto</label>
-              <p>{ watch('image')?.[0]?.name || '' }</p>
+              <p>{ edit?.image_name || watch('image')?.[0]?.name || '' }</p>
             </div>
             <input
               type="file"
@@ -311,20 +363,22 @@ export const LogReg = () => {
       <article className="logreg-users">
         <h2>Usuarios</h2>
         {
-          users?.map((user: any) => (
-            <User
-              key={user.id}
-              id={user.id}
-              name={user.name}
-              email={user.email}
-              password={user.password}
-              birthdate={user.birthdate}
-              country={user.country}
-              city={user.city}
-              image_name={user.image_name}
-              image={user.image}
-            />
-          ))
+          users?.map((user: any) => {
+            const data: DataObject = {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              password: user.password,
+              birthdate: user.birthdate,
+              country: user.country,
+              city: user.city,
+              image_name: user.image_name,
+              image: user.image,
+              setEdit: setEdit,
+            };
+
+            return <User key={user.id} data={data} />;
+          })
         }
       </article>
     </main>
