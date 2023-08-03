@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { registerUser, getUsers } from '../services/api'
+import { registerUser, getUsers, deleteUser } from '../services/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { 
   faPenToSquare, 
@@ -12,26 +12,40 @@ interface DataObject {
   name: string, 
   email: string,
   password: string,
-  birthdate: Date,
+  birthdate: string,
   country: string,
   city: string,
   image_name: string,
   image: string
   setEdit: any
+  setValues: any
 }
 
 interface Props {
   data: DataObject;
+  callgetUsers: any;
 }
 
 // El FC es un componente funcional con un tipo específico de props
-const User: React.FC<Props> = ({data}) => {
+const User: React.FC<Props> = ({data, callgetUsers}) => {
+  const newdate = data.birthdate + '-0500'
 
-  const date = new Date(data.birthdate)
-  
+  const date = new Date(newdate)
 
-  const deleteUser = async (id: number) => {
-    const response = ''
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  // console.log(data.birthdate);
+  // console.log(date);
+  // console.log(day, month, year);
+
+  const calldeleteUser = async (id: number) => {
+    const response = await deleteUser(id)
+
+    alert(response.message)
+
+    callgetUsers()
   }
 
   return (
@@ -39,14 +53,14 @@ const User: React.FC<Props> = ({data}) => {
       <div
         id = {data.id.toString()} 
         className="logreg-editbtn"
-        onClick={() => data.setEdit(data)}
+        onClick={() => {data.setEdit(data), data.setValues(true)}}
       >
         <FontAwesomeIcon icon = {faPenToSquare} />
       </div>
       <div
         id = {data.id.toString()} 
         className="logreg-deletebtn"
-        onClick={() => deleteUser(data.id)}
+        onClick={() => calldeleteUser(data.id)}
       >
         <FontAwesomeIcon icon = {faTrash} />
       </div>
@@ -61,7 +75,7 @@ const User: React.FC<Props> = ({data}) => {
         <p><b>Correo:</b> { data.email }</p>
         <p><b>Contraseña:</b> { data.password }</p>
         <p><b>Fecha de Nacimiento:</b> { 
-          `${date.getDate()+1}/${date.getMonth()+1}/${date.getFullYear()}` 
+          `${day}/${month}/${year}` 
         }</p>
         <p><b>País:</b> { data.country }</p>
         { data.city && <p><b>Departamento:</b> { data.city }</p> }
@@ -74,6 +88,8 @@ const User: React.FC<Props> = ({data}) => {
 
 export const LogReg = () => {
   const [users, setUsers] = useState([])
+  const [values, setValues] = useState(false)
+
   const [edit, setEdit] = useState({
     name: '',
     email: '',
@@ -83,16 +99,26 @@ export const LogReg = () => {
     city: '',
     image_name: '',
     image: ''
-  }) 
+  })  
 
-  console.log(edit);
+  console.log(edit)
   
 
+  const userBirthdate = new Date(edit?.birthdate)
+  
+  const formatDate = (value: number): string | number => {
+    return value < 10 ? `0${value}` : value
+  }
+  
+  const userEditBirthday = `${userBirthdate.getFullYear()}-${formatDate(userBirthdate.getMonth()+1)}-${formatDate(userBirthdate.getDate()+1)}`
+  
+  
   const {
     register, 
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
     reset,
   } = useForm()
 
@@ -109,7 +135,7 @@ export const LogReg = () => {
       data.image[0]  
     )
 
-    alert(response)
+    alert(response.message)
 
     callgetUsers()
     
@@ -133,11 +159,19 @@ export const LogReg = () => {
   }
 
   useEffect(() => {
+    if (values) {
+      setValue('name', edit.name);
+      setValue('email', edit.email);
+      setValue('password', edit.password);
+      setValue('birthdate', userEditBirthday);
+      setValue('country', edit.country);
+      setValue('city', edit.city);
+    }
 
     callgetUsers()
 
     return () => {}
-  }, [])
+  }, [values])
 
   return (
     <main className='logreg-main'>
@@ -248,7 +282,7 @@ export const LogReg = () => {
             <label htmlFor="birthdate">Fecha de Nacimiento</label>
             <input
               type="date"
-              defaultValue= { edit?.birthdate }
+              defaultValue= { edit.birthdate ? userEditBirthday : '' }
               id='birthdate'
               {...register('birthdate', {
                 required: {
@@ -276,7 +310,7 @@ export const LogReg = () => {
             <label htmlFor="country">País</label>
             <select 
               id="country"
-              defaultValue= { edit?.country }
+              // value = { pais }
               {...register('country')}
             >
               <option value="mx">México</option>
@@ -375,9 +409,16 @@ export const LogReg = () => {
               image_name: user.image_name,
               image: user.image,
               setEdit: setEdit,
+              setValues: setValues
             };
 
-            return <User key={user.id} data={data} />;
+            return (
+              <User 
+                key={user.id} 
+                data={data} 
+                
+                callgetUsers={callgetUsers}/>
+            )
           })
         }
       </article>

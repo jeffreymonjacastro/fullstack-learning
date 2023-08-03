@@ -131,7 +131,7 @@ class User(db.Model):
   )
 
   birthdate = db.Column(
-    db.Date,
+    db.TIMESTAMP,
     nullable=False
   )
 
@@ -236,7 +236,7 @@ def uploadImage():
   # return jsonify({'message': 'image uploaded successfully'}), 200
 
 
-@app.route('/login-register', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/login-register', methods=['GET', 'POST'])
 def loginRegister():
   try:
     if request.method == 'GET':
@@ -294,6 +294,68 @@ def loginRegister():
   except Exception as e:
     return jsonify({'error': str(e)}), 400
 
+
+@app.route('/login-register/<id>', methods=['GET', 'PUT', 'DELETE'])
+def loginRegisterUser(id):
+  try:
+    if request.method == 'GET':
+      user = User.query.filter_by(id=id).first()
+      serialized_user = {
+        'id': user.id,
+        'name': user.name,
+        'email': user.email,
+        'password': user.password,
+        'birthdate': user.birthdate,
+        'country': user.country,
+        'city': user.city, 
+        'image_name': user.image_name,
+        'image': base64.b64encode(user.image).decode('utf-8')
+        }
+      return jsonify(serialized_user)
+
+    elif request.method == 'PUT':
+      name = request.form['name']
+      email = request.form['email']
+      password = request.form['password']
+      birthdate = request.form['birthdate']
+      country = request.form['country']
+      city = request.form['city']
+      city = request.form['city'] if city != 'undefined' else ''
+      image = request.files['image']
+
+      image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
+
+      binary_image = convertToBinary(f'./static/{image.filename}')
+
+      user = User.query.filter_by(id=id).first()
+      user.name = name
+      user.email = email
+      user.password = password
+      user.birthdate = birthdate
+      user.country = country
+      user.city = city
+      user.image_name = image.filename
+      user.image = binary_image
+
+      db.session.commit()
+
+      try:
+        os.remove(f'./static/{image.filename}')
+      except FileNotFoundError:
+        print(f"El archivo './static/{image.filename}' no existe.")
+      except Exception as e:
+        print(f"Error al eliminar el archivo './static/{image.filename}': {str(e)}")
+
+      return jsonify({'message': 'User updated successfully'}), 200
+
+    elif request.method == 'DELETE':
+      user = User.query.filter_by(id=id).first()
+      db.session.delete(user)
+      db.session.commit()
+      return jsonify({'message': 'User deleted successfully'}), 200
+
+  except Exception as e:
+    return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
   app.run(debug=True, host='0.0.0.0', port=5000)

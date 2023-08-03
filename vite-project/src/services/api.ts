@@ -76,12 +76,23 @@ export const registerUser = async (
     body: formData
   })
   
-  return 'User registered successfully'
+  const data = await res.json()
+  return data
 }
 
 // Login-Register (GET)
 export const getUsers = async () => {
   const res = await fetch(`${BACKEND_URL}/login-register`)
+  const data = await res.json()
+  return data
+}
+
+// Login-Register (DELETE)
+export const deleteUser = async (id: number) => {
+  const res = await fetch(`${BACKEND_URL}/login-register/${id}`, {
+    method: 'DELETE'
+  })
+  
   const data = await res.json()
   return data
 }
