@@ -1,0 +1,7 @@
+.todo {
+  background-color: #707070;
+  grid-area: 2 / 2 / 4 / 3;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+}

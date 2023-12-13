@@ -1,0 +1,8 @@
+.nav {
+  background-color: #1a1a1a;
+  grid-area: 1 / 1 / 4 / 2;
+  width: auto;
+  height: 100%;
+  border-radius: 10px;
+  margin-right: 10px;
+}

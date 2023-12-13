@@ -1,0 +1,9 @@
+.calendar {
+  background-color: #2e2a2a;
+  grid-area: 2 / 3 / 3 / 4;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}

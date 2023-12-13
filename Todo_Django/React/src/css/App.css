@@ -1,0 +1,10 @@
+#root {
+  width: calc(100vw - 20px);
+  height: calc(100vh - 20px);
+  padding: 10px;
+  margin: 0 auto;
+  text-align: center;
+  display: grid;
+  grid-template-rows: 30% 50% 20%;
+  grid-template-columns: 20% 50% 30%;
+}

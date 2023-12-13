@@ -1,0 +1,8 @@
+.welcome {
+  background-color: #383838;
+  grid-area: 1 / 2 / 2 / 3;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}

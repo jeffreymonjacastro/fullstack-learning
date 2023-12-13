@@ -1,0 +1,9 @@
+.numbers {
+  background-color: #504f4f;
+  grid-area: 1 / 3 / 2 / 4;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}

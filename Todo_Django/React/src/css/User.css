@@ -1,0 +1,8 @@
+.user {
+  background-color: #797979;
+  grid-area: 3 / 3 / 4 / 4;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+  margin-left: 10px;
+}
