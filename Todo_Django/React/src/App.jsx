@@ -21,7 +21,7 @@ function App() {
       <Numbers />
       <Calendar />
       <User />
-    </>
+    </> 
   )
 }
 

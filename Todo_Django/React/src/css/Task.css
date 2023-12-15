@@ -1,0 +1,6 @@
+.task {
+  display: grid;
+  grid-template-columns: 20% 70% 10%;
+  justify-content: space-around;
+  text-align: center;
+}

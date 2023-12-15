@@ -11,6 +11,16 @@ virtualenv nombre_entorno
 .\venv\Scripts\activate
 ```
 
+### Comandos pip en venv
+
+```bash
+# Instalar una librería
+python -m pip install "nombre_libreria"
+
+# Actualizar los requerimientos
+python -m pip freeze > requirements.txt
+```
+
 
 ### Correr servidor de Django
 
