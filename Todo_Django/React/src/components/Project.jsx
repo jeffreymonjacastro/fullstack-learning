@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
 import { 
   useState, 
   useEffect,
   useRef } from 'react'
 import { Task } from './Task'
-import { getTasks } from '../services/api.js'
+import { getTasks, deleteProject } from '../services/api.js'
 import '../css/Project.css'
 
 
@@ -18,6 +18,12 @@ export const Project = ({ id, title, description }) => {
   const callgetTasks = async (project_id) => {
     const response = await getTasks(project_id)
     setTasks(response || [])
+  }
+
+  const calldeleteProject = async (project_id) => {
+    const response = await deleteProject(project_id)
+    alert(response.result)
+    window.location.reload()
   }
 
   const showTasks = () => {
@@ -58,6 +64,14 @@ export const Project = ({ id, title, description }) => {
         >
           Tasks ▼
         </button>
+
+        <button 
+          className="project-tasks-add" 
+          // ref={taskBtnRef}
+          // onClick={ () => callgetTasks(id) }
+        >
+          Add Task +
+        </button>
       </div>
 
       <div className="project-tasks" ref={tasksRef}>
@@ -82,10 +96,17 @@ export const Project = ({ id, title, description }) => {
       </div>
 
       <div
-        className="project-add-task"
+        className="project-delete"
+        onClick={ () => calldeleteProject(id) }
+      >
+        <FontAwesomeIcon icon={faTrash} style={{color: "#707070",}} />
+      </div>
+
+      <div
+        className="project-edit"
         // onClick={}
       >
-        <FontAwesomeIcon icon={faCirclePlus} style={{color: "#707070",}} />
+        <FontAwesomeIcon icon={faPencil} style={{color: "#707070",}} />
       </div>
     </section>
   );

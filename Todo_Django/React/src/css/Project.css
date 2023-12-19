@@ -18,9 +18,14 @@
   margin-right: 10px;
 }
 
+.project-info {
+  width: 90%;
+}
+
 .project-info button {
   margin-top: 5px;
-  width: 80%;
+  width: 40%;
+  margin-right: 10px;
 }
 
 .project-tasks {
@@ -41,9 +46,9 @@
   border-top: 1px solid #707070;; 
 }
 
-.project-add-task {
-  width: 40px;
-  height: 40px;
+.project-delete, .project-edit {
+  width: 30px;
+  height: 30px;
   position: absolute;
   margin-top: 10px;
   margin-right: 10px;
@@ -52,7 +57,11 @@
   padding: 5px;
 }
 
-.project-add-task svg {
+.project-delete svg, .project-edit svg {
   width: 100%;
   height: 100%;
+}
+
+.project-edit {
+  top: 50px;
 }

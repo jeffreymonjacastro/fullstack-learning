@@ -58,9 +58,16 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
 
-CSRF_COOKIE_SECURE = True 
-CSRF_COOKIE_HTTPONLY = True
+# CORS_ALLOW_HEADERS = [
+#     'x-csrftoken',
+#     'http_x_csrftoken',
+# ]
+
+# CSRF_COOKIE_SECURE = True 
+# CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_NAME = 'csrftoken'
 CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
 
 ROOT_URLCONF = 'mini_todo.urls'
 

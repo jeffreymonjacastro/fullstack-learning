@@ -27,3 +27,17 @@
 .projects::-webkit-scrollbar-thumb {
   background-color: #707070;
 }
+
+.project-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-form-title {
+  font-size: 1.2rem;
+}
+
+.project-form-title, .project-form-description {
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
