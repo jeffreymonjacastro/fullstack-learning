@@ -22,6 +22,12 @@ export const Todo = () => {
     <article className='todo'>
       <div className='title'>
         <h3>Projects</h3>
+        <button 
+          className="add-project"
+          // onClick={}
+        >
+          + Add Project
+        </button>
       </div>
 
       <div className="projects">

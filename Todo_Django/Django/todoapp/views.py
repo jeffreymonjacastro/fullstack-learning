@@ -1,19 +1,30 @@
 from django.http import HttpResponse, JsonResponse
-from .models import Project, Task
 from django.shortcuts import get_object_or_404, render, redirect
+from django.core.serializers import serialize
+from .models import Project, Task
 from .forms import createNewTask
+import json
 
 # Create your views here.
 def index(request):
 	return render(request, 'index.html')
 
 def projects(request):
-	projects = list(Project.objects.values())
-	return JsonResponse(projects, safe=False)
+	if request.method == 'GET':
+		projects = list(Project.objects.values())
+		return JsonResponse(projects, safe=False)
+	elif request.method == 'POST':
+		Project.objects.create(
+			title=request.POST['title'], 
+			description=request.POST['description']
+		)
+		return redirect('/projects/')
 
-def tasks(request):
-	tasks = list(Task.objects.values())
-	return JsonResponse(tasks, safe=False)
+def tasks(request, project_id):
+	tasks = Task.objects.filter(project_id=project_id)
+	serialized_tasks = serialize('json', tasks)
+	deserialized_tasks = json.loads(serialized_tasks)
+	return JsonResponse(deserialized_tasks, safe=False)
 
 def createTask(request):
 	if request.method == 'GET':

@@ -1,11 +1,13 @@
 .project {
   background-color: #272727;
+  width: auto;
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 10px;
   display: grid;
   grid-template-columns: 20% 80%;
   grid-template-rows: 1fr;
+  position: relative;
 }
 
 .project-image {
@@ -18,6 +20,7 @@
 
 .project-info button {
   margin-top: 5px;
+  width: 80%;
 }
 
 .project-tasks {
@@ -28,7 +31,7 @@
 
 .task-headers {
   display: grid;
-  grid-template-columns: 20% 70% 10%;
+  grid-template-columns: 20% 50% 10% 10% 10%;
   justify-content: space-around;
   text-align: center;
 }
@@ -36,4 +39,20 @@
 .project-tasks hr {
   border: none; 
   border-top: 1px solid #707070;; 
+}
+
+.project-add-task {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  margin-top: 10px;
+  margin-right: 10px;
+  right: 0;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.project-add-task svg {
+  width: 100%;
+  height: 100%;
 }

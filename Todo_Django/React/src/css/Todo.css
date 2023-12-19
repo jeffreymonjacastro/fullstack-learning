@@ -11,6 +11,8 @@
   font-family: 'ubuntu', sans-serif;
   font-weight: 600;
   margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .projects {
