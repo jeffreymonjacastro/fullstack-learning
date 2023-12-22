@@ -7,16 +7,17 @@ from .models import Project, Task
 from .forms import createNewTask
 import json
 
-def csrf(request):
-  return JsonResponse({'csrfToken': get_token(request)})
+## Create your views here.
 
-@csrf_exempt
-def ping(request):
-  return JsonResponse({'result': 'OK'})
+# def csrf(request):
+#   return JsonResponse({'csrfToken': get_token(request)})
 
-# Create your views here.
-def index(request):
-	return render(request, 'index.html')
+# @csrf_exempt
+# def ping(request):
+#   return JsonResponse({'result': 'OK'})
+
+# def index(request):
+# 	return render(request, 'index.html')
 
 @csrf_exempt
 def projects(request):
