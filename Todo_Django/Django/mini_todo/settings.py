@@ -56,6 +56,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://todo-django-jamcy.s3-website-us-east-1.amazonaws.com"
 ]
 
 # CORS_ALLOW_HEADERS = [

@@ -1,3 +1,5 @@
+## Tutorial Django
+
 ### Crear un entorno virtual de Py
   
 ```bash
@@ -7,8 +9,11 @@ pip install virtualenv
 # Crear el entorno virtual
 virtualenv nombre_entorno
 
-# Activar el entorno virtual
+# Activar el entorno virtual (windows)
 .\venv\Scripts\activate
+
+# Activar el entorno virtual (linux)
+source venv/bin/activate
 ```
 
 ### Comandos pip en venv
@@ -19,6 +24,9 @@ python -m pip install "nombre_libreria"
 
 # Actualizar los requerimientos
 python -m pip freeze > requirements.txt
+
+# Descargar todos los requerimientos
+python -m pip install -r requirements.txt
 ```
 
 
@@ -31,6 +39,8 @@ python manage.py runserver
 # Se ejecuta en el puerto 3000
 python manage.py runserver 3000
 
+# Se ejecuta en todos los hosts (importante, debemos añadir en ALLOWED_HOSTS = ['*'] en settings.py)
+python manage.py runserver 0.0.0.0:8000
 ```
 
 ### Ingresar al servidor local
@@ -258,3 +268,15 @@ Se puede renderizar un archivo html en la aplicación. Para ello, se debe crear 
   + templates
 	+ index.html
 	
+
+
+## Deploy de Django en AWS EC2
+
+### Crear una instancia EC2 en AWS
+1. Ir a la consola de AWS
+2. Ir a la sección de EC2
+3. Click en AMI
+4. Buscar por la instancia t2.micro
+5. Colocar de filtro la AMI Cloud9Ubuntu y seleccionar la AMI
+6. Click en crear instancia
+7. 

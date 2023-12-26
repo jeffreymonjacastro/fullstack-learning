@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://127.0.0.1:8000'
+const BACKEND_URL = 'http://44.218.45.252:8000'
 
 let _csrfToken = null
 
