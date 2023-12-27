@@ -156,6 +156,55 @@ python manage.py makemigrations todoapp
 python manage.py migrate todoapp
 ```
 
+#### Postgres
+
+Se debe instalar la librería psycopg2
+
+```bash
+pip install psycopg2
+```
+
+Luego, ingresar a postgres desde la terminal y crear una base de datos
+
+```bash
+# Ingresar a postgres
+psql -U postgres -p 5432 -d postgres
+
+# Crear una base de datos
+CREATE DATABASE todo_django;
+
+# Conectarse a la base
+\connect todo_django
+```
+
+Se debe configurar la base de datos en el archivo settings.py
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'todo_django',
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': 'localhost', # Cambiar en prod
+        'PORT': '5432', # Default
+    }
+}
+```
+
+Luego, se ejecutan las migraciones y crear un nuevo superusuario
+
+```bash
+# Crear migraciones
+python manage.py migrate
+
+# Crear super usuario
+python manage.py createsuperuser
+```
+
+Listo :D
+
+
 ### Django Shell
 
 ```bash
@@ -268,15 +317,3 @@ Se puede renderizar un archivo html en la aplicación. Para ello, se debe crear 
   + templates
 	+ index.html
 	
-
-
-## Deploy de Django en AWS EC2
-
-### Crear una instancia EC2 en AWS
-1. Ir a la consola de AWS
-2. Ir a la sección de EC2
-3. Click en AMI
-4. Buscar por la instancia t2.micro
-5. Colocar de filtro la AMI Cloud9Ubuntu y seleccionar la AMI
-6. Click en crear instancia
-7. 
