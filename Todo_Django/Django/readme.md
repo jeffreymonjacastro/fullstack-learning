@@ -164,17 +164,35 @@ Se debe instalar la librería psycopg2
 pip install psycopg2
 ```
 
+Se debe tener instalado postgres. En windows, se debe descargar el instalador y en linux se debe instalar desde la terminal
+
+```bash
+# Instalar postgres
+sudo apt install postgresql postgresql-contrib
+```
+
 Luego, ingresar a postgres desde la terminal y crear una base de datos
 
 ```bash
 # Ingresar a postgres
 psql -U postgres -p 5432 -d postgres
 
+# Ingresar desde linux
+sudo -u postgres psql
+````
+
+```sql
 # Crear una base de datos
 CREATE DATABASE todo_django;
 
 # Conectarse a la base
 \connect todo_django
+
+# Colocarle contraseña a un usuario
+ALTER USER postgres WITH PASSWORD 'nueva_contraseña';
+
+# Ver las bases de datos
+\l
 ```
 
 Se debe configurar la base de datos en el archivo settings.py
@@ -202,8 +220,13 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-Listo :D
+Para verificar la correcta conexión, verificar si se han creado las tablas en la base de datos. Ingresar a postgres y colocar
 
+```bash
+\dt
+```
+
+Deberían aparecer las tablas creadas
 
 ### Django Shell
 

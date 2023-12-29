@@ -111,7 +111,7 @@ DATABASES = {
         'NAME': 'todo_django',
         'USER': 'postgres',
         'PASSWORD': '123',
-        'HOST': 'localhost', # Cambiar en prod
+        'HOST': '52.71.183.125', # Cambiar en prod
         'PORT': '5432', # Default
     }
 }
