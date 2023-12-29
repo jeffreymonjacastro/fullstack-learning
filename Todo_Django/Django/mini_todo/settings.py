@@ -112,7 +112,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '123',
         'HOST': '52.71.183.125', # Cambiar en prod
-        'PORT': '5432', # Default
+        'PORT': '8000', # Default
     }
 }
 
