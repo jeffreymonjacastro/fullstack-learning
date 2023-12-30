@@ -8,10 +8,7 @@ WORKDIR /Web_mini_projects/Todo_Django/Django
 COPY requirements.txt .
 
 # Instala los paquetes del requirements.txt
-RUN python -m venv venv
-ENV PATH="/Web_mini_projects/Todo_Django/Django/venv/bin:$PATH"
-RUN . venv/bin/activate && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia el resto de la aplicación al contenedor
 COPY . .
