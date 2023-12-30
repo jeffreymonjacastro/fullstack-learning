@@ -46,4 +46,7 @@ Deploy: AWS
 9. Ingresar a la instancia EC2
 
 
-### 
+### MV DataBase (Postgres)
+1. Ingresar a la instancia EC2 de base de datos
+2. 
+

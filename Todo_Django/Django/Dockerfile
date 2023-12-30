@@ -14,8 +14,5 @@ RUN . venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 # Copia el resto de la aplicación al contenedor
 COPY . .
 
-# Exponer el puerto 8000 (o el puerto que estás utilizando para tu aplicación Django)
-EXPOSE 8000
-
 # Comando para ejecutar la aplicación
-CMD ["venv/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

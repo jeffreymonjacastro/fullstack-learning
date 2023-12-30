@@ -201,8 +201,8 @@ Se debe configurar la base de datos en el archivo settings.py
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'todo_django',
-        'USER': 'postgres',
+        'NAME': 'todo_django', # Nombre de la base
+        'USER': 'postgres', # Default
         'PASSWORD': '123',
         'HOST': 'localhost', # Cambiar en prod
         'PORT': '5432', # Default
