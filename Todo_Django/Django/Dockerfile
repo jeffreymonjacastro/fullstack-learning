@@ -15,4 +15,4 @@ RUN . venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Comando para ejecutar la aplicación
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/bin/bash", "-c", "source venv/bin/activate && python manage.py runserver 0.0.0.0:8000"]
