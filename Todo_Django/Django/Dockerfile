@@ -13,5 +13,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia el resto de la aplicación al contenedor
 COPY . .
 
+# Ejecuta las migraciones
+RUN python manage.py migrate
+
+# Crea un superusuario
+RUN echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('jamcy', 'admin@example.com', '123')" | python manage.py shell
+
 # Comando para ejecutar la aplicación
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
