@@ -2,10 +2,10 @@
 
 Simple web todo app
 
-Frontend: React + JS
-Backend: Django
-DataBase: PostgreSQL
-Deploy: AWS S3 + EC2
++ Frontend: React + JS
++ Backend: Django
++ DataBase: PostgreSQL
++ Deploy: AWS S3 + EC2
 
 ## Pasos para hacer el Deploy de Django en AWS EC2
 
