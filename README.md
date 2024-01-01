@@ -10,6 +10,7 @@
 
 ## Frameworks:
 + Flask
++ Django
 + React
 
 ## DataBases
@@ -17,4 +18,4 @@
 + Postgres
 
 ## Deployment
-Soon...
++ AWS
