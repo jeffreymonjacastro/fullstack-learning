@@ -4,8 +4,8 @@ Simple web todo app
 
 Frontend: React + JS
 Backend: Django
-DataBase: SQLite3
-Deploy: AWS
+DataBase: PostgreSQL
+Deploy: AWS S3 + EC2
 
 ## Pasos para hacer el Deploy de Django en AWS EC2
 
@@ -78,7 +78,7 @@ sudo mount /dev/xvdf /mnt/postgresql
 Si estás utilizando Docker para ejecutar tu contenedor de PostgreSQL, debes ajustar la configuración de Docker para que utilice el volumen montado. Esto implica utilizar la opción `-v o --volume` al ejecutar el contenedor de PostgreSQL para especificar la ruta del volumen. Por ejemplo:
 
 ```bash
-docker run -d --rm --name postgresql_c -e POSTGRES_PASSWORD=123 -p 5432:5432 -v /mnt/postgresql:/var/lib/postgresql postgres
+docker run -d --name postgresql_c -e POSTGRES_PASSWORD=123 -p 5432:5432 -v /mnt/postgresql:/var/lib/postgresql postgres
 ```
 
 En este ejemplo, el directorio `/mnt/postgresql` (que es el punto de montaje del volumen de EBS) se vincula al directorio `/var/lib/postgresql` dentro del contenedor de PostgreSQL.
@@ -90,7 +90,7 @@ docker ps
 ```
 
 #### Importante
-+ Si se detiene el contenedor se debe volver a ejecutar el comando 4 para ejecutar el contenedor de postgres pero excluyendo el `--rm` para no eliminar los datos del contenedor.
++ Si se detiene el contenedor se debe volver a ejecutar con `docker start <id_contenedor>`
 
 5. Crear el usuario y la base de datos en postgres:
 
@@ -319,7 +319,118 @@ Finalmente, desloguearse de dockerhub con el siguiente comando:
 docker logout
 ```
 
+### Automatizar el proceso de activación de base de datos y contenedores
+1. Crear un directorio para almacenar los archivos de configuración:
 
+```bash
+mkdir /home/ubuntu/automatizar
+```
+
+2. Crear un archivo app-start.sh con el siguiente contenido:
+
+```bash
+echo "Iniciando contenedor de Postgres"
+echo "--------------------------------"
+
+docker start <id_contenedor>
+
+echo "Iniciando contenedor de Django"
+echo "-------------------------------"
+
+docker start <id_contenedor>
+
+echo "Contenedores en ejecución:"
+echo "-------------------------------"
+
+docker ps
+```
+
+3. Crear un archivo app-stop.sh con el siguiente contenido (opcional):
+
+```bash
+echo "Deteniendo contenedor de Postgres"
+echo "--------------------------------"
+
+docker stop <id_contenedor>
+
+echo "Deteniendo contenedor de Django"
+
+docker stop <id_contenedor>
+
+echo "Contenedores detenidos:"
+
+docker ps -a
+```
+
+4. Agregar el archivo app-start.sh al cron de la instancia EC2:
+
+```bash
+# Abrir el cron
+sudo crontab -e
+
+# Agregar la siguiente línea al final del cron
+@reboot /home/ubuntu/automatizar/app-start.sh
+
+# Ctrl + O + Enter para guardar
+# Ctrl + X para salir
+```
+
+### Subir el frontend (React) a S3
+1. Crear un bucket en S3
++ Ir a la sección de S3
++ Click en crear un bucket
++ Ponerle un nombre único
++ Activar la opción **ACL Habilitadas**
++ Desactivar la opción de **bloquear todo el acceso público**
++ Click en crear bucket
+
+2. Habilitar el alojamiento de sitios web estáticos
++ Click en el bucket creado
++ Click en la pestaña de propiedades
++ Ir hasta el último apartado de **Alojamiento de sitios web estáticos** y click en editar
++ Activar la opción de **Usar este bucket para alojar un sitio web estático**
++ En el campo de **Index document** y **Error document**, colocar **index.html**
++ Click en guardar
+
+3. Configurar el bucket para que sea público
++ Click en la pestaña de permisos
++ Ir al apartado de **Política de bucket** y clikc en editar
++ Agregar el siguiente json en el panel **Política**
+
+```
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement1",
+			"Effect": "Allow",
+			"Principal": "*",
+			"Action": "s3:GetObject",
+			"Resource": "arn:aws:s3:::reganvi-web-app/*"
+		}
+	]
+}
+```
+
++ Click en guardar cambios
+
+4. Subir los archivos del frontend al bucket
++ Ejecutar el comando en la terminal local para convertir el React en producción:
+
+```bash
+npm run build
+```
+
++ Se creará una nueva carpeta **dist** con los documentos a subir
++ Arrastrar todos los archivos de la carpeta **dist** al bucket, de manera que index.html esté en la raíz del bucket
++ Seleccionar todos los archivos alojados
++ Click en **Acciones>Hacer público mediante ACL**
+
+Listo :D
+
+5. Opcional - Almacenar imágenes
+
+S3 bucket también funciona como servicio de alojamiento de imágenes, por lo que cada imagen que se suba tendrá un link público asociado el cual podrá usarse en el frontend. Para ello, asegúrate de subir el paso 4 con cada archivo nuevo que se suba.
 
 
 
