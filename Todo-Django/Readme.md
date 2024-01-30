@@ -261,7 +261,7 @@ docker build -t <nombre_imagen> .
 Primero, ejecutamos el contenedor con el siguiente comando:
 
 ```bash
-docker run -d -p 8000:8000 <nombre_imagen>
+docker run -d --name <nombre_contenedor> -p 8000:8000 <nombre_imagen:tag>
 ```
 
 Verificar si el contenedor se está ejecutando con el siguiente comando:
