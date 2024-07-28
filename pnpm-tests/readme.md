@@ -79,3 +79,9 @@ Para cambiar un `package-lock.json` a `pnpm-lock.yaml`:
 pnpm import
 ```
 
+Para ejecutar un script:
+
+```bash
+pnpm run dev
+pnpm run <script>
+```
