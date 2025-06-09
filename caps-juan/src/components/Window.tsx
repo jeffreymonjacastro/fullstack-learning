@@ -1,6 +1,9 @@
 import { useEffect } from "react"
+import type { ComponentProps } from "../interfaces/myInterfaces";
 
-export default function Window() {
+// Un conjunto de Tipos 
+export default function Window(props: ComponentProps) {
+
 
   useEffect(() => {
     // Creation
@@ -14,7 +17,7 @@ export default function Window() {
 
   return (
     <>
-      <h1 style={{ backgroundColor: 'lightblue' }}> WINDOW !!</h1>
+      <h1 style={{ backgroundColor: 'lightblue' }}> WINDOW !! {props.title}</h1>
     </>
   )
 }
