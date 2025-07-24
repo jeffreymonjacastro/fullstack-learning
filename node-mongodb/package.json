@@ -1,0 +1,44 @@
+{
+  "name": "mongodb",
+  "version": "1.0.0",
+  "description": "API REST con Node.js, Express, MongoDB y TypeScript",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "nodemon --exec \"tsx\" src/app.ts",
+    "dev:watch": "nodemon --watch src --ext ts --exec \"tsx\" src/app.ts",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb",
+    "typescript",
+    "rest-api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.16.4"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.1.0",
+    "nodemon": "^3.1.10",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
